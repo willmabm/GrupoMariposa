@@ -1,0 +1,12 @@
+# Java / Maven
+orderworker/target/
+orderworker/.idea/
+*.iml
+
+# Node.js
+enrichment-api-node/node_modules/
+enrichment-api-node/.env
+
+# Sistema
+.DS_Store
+Thumbs.db

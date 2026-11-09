@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: orderworker
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/orders_db
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: order-worker-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  data.redis:
+    host: localhost
+    port: 6379
+
+app:
+  kafka:
+    topic: orders-topic
+  enrichment:
+    base-url: http://localhost:3000
+  retry:
+    max-attempts: 5
+    initial-delay: 500ms
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 500ms
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        exponential-max-wait-duration: 5s
+        retry-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - java.util.concurrent.TimeoutException
